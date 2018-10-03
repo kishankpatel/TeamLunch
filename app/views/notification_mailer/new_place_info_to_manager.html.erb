@@ -1,23 +1,16 @@
-<p>Hi <%=@manager.name%></p><br>
-<p><%=@user.name%> has proposed a place for team lunch.</p><br>
-<p>Place information: </p><br>
-<table>
-	<th>
-		Place name:
-	</th>
-	<td>
-		<%=@place.name%>
-	</td>
-
-	<th>
-		Place address:
-	</th>
-	<td>
-		<%=@place.address%>
-	</td>
-
-</table>
-<br>
-<br>
-<br>
-<br>
+<div>
+  <p>Hi <%=@manager.name%>,</p>
+  <p><%=@user.name%> has proposed a place for team lunch.</p><br>
+  <p>Place information: </p>
+  <p>
+    <b>Place name: </b> <%=@place.name%>
+  </p>
+  <p>
+    <b>Place address: </b> <%=@place.address%>
+  </p>
+  <p></p>
+  <p>--</p>
+  <p>Regards,</p>
+  <p><%=@manager.name%></p>
+  <br>
+</div>  

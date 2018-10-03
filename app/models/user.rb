@@ -8,7 +8,9 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }
-  # belongs_to :manager, :class_name => "User", :foreign_key => "manager_id"
+  
+  
+  scope :active_users, -> { where("manager_id is NOT NULL AND invitation_token IS NULL AND invitation_accepted_at IS NOT NULL") }
 
   def manager
     User.find(manager_id)

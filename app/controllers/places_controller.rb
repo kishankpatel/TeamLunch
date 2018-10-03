@@ -33,9 +33,8 @@ class PlacesController < ApplicationController
     if place && current_user.is_manager?
       place.update_attributes(:is_finalize => true, :finalize_by => current_user.id)
       begin
-        users = User.where("manager_id is NOT NULL")
-        manager = user.manager
-        NotificationMailer.finalize_place_info_to_users(place, manager, users).deliver
+        users = User.active_users
+        NotificationMailer.finalize_place_info_to_users(place, current_user, users).deliver
         flash[:success] = "#{place.name} has been finalised for team lunch."
       rescue Exception => e
         flash[:danger] = e.message

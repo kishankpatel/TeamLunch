@@ -19,21 +19,27 @@ class UsersController < ApplicationController
       flash[:success] = "Invitation sent to #{user.name}<#{user.email}>."
       redirect_to users_path
     else
+      flash[:danger] = user.errors.messages
       render 'new'
     end
   end
 
   def accept_invitation
-    id = Base64.strict_decode64(params[:token]).split("-")[0]
-    @user = User.find_by_id(id)
-    if @user.present?
-      if @user.invitation_token.blank? && @user.invitation_accepted_at.present?
-        flash[:danger] = "Invitation already accepted, please try signing in." 
-        redirect_to login_path 
+    begin
+      id = Base64.strict_decode64(params[:token]).split("-")[0]
+      @user = User.find_by_id(id)
+      if @user.present?
+        if @user.invitation_token.blank? && @user.invitation_accepted_at.present?
+          flash[:danger] = "Invitation already accepted, please try signing in." 
+          redirect_to login_path 
+        end
+      else
+        flash[:danger] = "User not found!!"
+        render request.referrer
       end
-    else
-      flash[:danger] = "User not found!!"
-      render request.referrer
+    rescue Exception => e
+      flash[:danger] = e.message
+      redirect_to login_path 
     end
   end
 
