@@ -9,18 +9,22 @@ class PlacesController < ApplicationController
   def create
     params[:place][:created_by] = current_user.id
     place = Place.new(place_params)
-    if place.save
-      begin
-        manager = User.where("manager_id is NULL").first
-        user = place.creator
-        NotificationMailer.new_place_info_to_manager(place, manager, user).deliver
-        flash[:success] = "#{place.name} has been craeted successfully."
-      rescue Exception => e
-        flash[:danger] = e.message
+    respond_to do |format|
+      if place.save
+        begin
+          manager = User.where("manager_id is NULL").first
+          user = place.creator
+          NotificationMailer.new_place_info_to_manager(place, manager, user).deliver
+          flash[:success] = "#{place.name} has been created successfully."
+        rescue Exception => e
+          flash[:danger] = e.message
+        end
+          format.html { redirect_to places_path }
+          format.json { render text: "success", status: :created }
+      else
+        format.html { render :new }
+        format.json { render json: place.errors, status: :unprocessable_entity}
       end
-      redirect_to places_path
-    else
-      render 'new'
     end
   end
 
