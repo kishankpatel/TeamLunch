@@ -16,3 +16,4 @@
 //= require jquery.min
 //= require bootstrap.min
 //= require jquery.dataTables.min
+//= require common
