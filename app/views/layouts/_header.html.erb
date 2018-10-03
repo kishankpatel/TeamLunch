@@ -7,8 +7,8 @@
           <%= link_to "Team Members", users_path, class: "nav-item nav-link" %>
           <%= link_to "Places", places_path, class: "nav-item nav-link" %>
         <%end%>
-        <%= link_to "Logged in as: #{current_user.email}", "javascript:void(0)", class: "nav-item nav-link active userinfo" %>
         <%= link_to "Log out", logout_path, method: :delete, class: "nav-item nav-link" %>
+        <%= link_to "Signed in as: #{current_user.email}", "javascript:void(0)", class: "nav-item nav-link active userinfo" %>
       <%else%>
         <%= link_to "Log in", login_path, class: "nav-item nav-link" %>
       <%end%>

@@ -11,11 +11,10 @@ class UsersController < ApplicationController
   end
 
   def create
-    params[:user][:manager_id] = current_user.id
     user = User.new(user_params)
     if user.save
       token = Base64.strict_encode64(user.id.to_s + "-" + user.created_at.to_s)
-      user.update_attributes(invitation_token: token) 
+      user.update_attributes(manager_id: current_user.id,invitation_token: token) 
       NotificationMailer.send_invitation(user, current_user).deliver
       flash[:success] = "Invitation sent to #{user.name}<#{user.email}>."
       redirect_to users_path
@@ -40,9 +39,17 @@ class UsersController < ApplicationController
 
   def reset_password
     user = User.find_by_id(params[:id])
-    if user.present?
-      user.update_attributes(invitation_token: nil, invitation_accepted_at: DateTime.now, password: params[:user][:password], password_confirmation: params[:user][:password])
-      flash[:success] = "Invitation accepted, please try signing in." 
+    if user.present? 
+      if params[:user][:password] == params[:user][:password_confirmation]
+        user.update_attributes(invitation_token: nil, invitation_accepted_at: DateTime.now, password: params[:user][:password], password_confirmation: params[:user][:password_confirmation])
+        flash[:success] = "Invitation accepted, please try signing in." 
+      else
+        flash[:danger] = "Password and password confirmation does not matched."
+        redirect_to request.referrer
+        return
+      end
+    else
+      flash[:danger] = "Failed to reset password."
     end
     redirect_to login_path 
   end
@@ -50,6 +57,6 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :manager_id)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 end
