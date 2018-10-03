@@ -17,7 +17,7 @@
 				<tr>
 					<td><%= place.name %></td>
 					<td><%= place.address %></td>
-					<td><%= place.created_at %></td>
+					<td><%= format_date(place.created_at) %></td>
 					<td><%= place.creator.name %></td>
 					<% if current_user.is_manager? %>
 						<td><%= link_to "Finalize", finalize_place_path(place.id) %></td>

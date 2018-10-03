@@ -14,8 +14,8 @@
 				<tr>
 					<td><%= user.name %></td>
 					<td><%= user.email %></td>
-					<td><%= user.created_at.strftime("%d/%m/%Y %H:%M %p") %></td>
-					<td><%= user.invitation_accepted_at.present? ? user.invitation_accepted_at.strftime("%d/%m/%Y %H:%M %p") : "Not Accepted" %></td>
+					<td><%= format_date(user.created_at) %></td>
+					<td><%= user.invitation_accepted_at.present? ? format_date(user.invitation_accepted_at) : "Not Accepted" %></td>
 				</tr>
 			<%end%>
 		</tbody>
