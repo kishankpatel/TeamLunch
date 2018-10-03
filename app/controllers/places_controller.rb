@@ -1,0 +1,47 @@
+class PlacesController < ApplicationController
+  before_action :authenticate_user
+  def index
+    @places = Place.all.order("created_at DESC")  
+  end
+  def new
+    
+  end
+  def create
+    params[:place][:created_by] = current_user.id
+    place = Place.new(place_params)
+    if place.save
+      begin
+        manager = User.where("manager_id is NULL").first
+        user = place.creator
+        NotificationMailer.new_place_info_to_manager(place, manager, user).deliver
+        flash[:success] = "#{place.name} has been craeted successfully."
+      rescue Exception => e
+        flash[:danger] = e.message
+      end
+      redirect_to places_path
+    else
+      render 'new'
+    end
+  end
+
+  def finalize
+    place = Place.find_by_id(params[:id])
+    if place && current_user.is_manager?
+      place.update_attributes(:is_finalize => true, :finalize_by => current_user.id)
+      begin
+        users = User.where("manager_id is NOT NULL")
+        manager = user.manager
+        NotificationMailer.finalize_place_info_to_users(place, manager, users).deliver
+        flash[:success] = "#{place.name} has been finalised for team lunch."
+      rescue Exception => e
+        flash[:danger] = e.message
+      end
+    end
+    redirect_to places_path
+  end
+
+  private
+  def place_params
+    params.require(:place).permit(:name, :address, :created_by)
+  end
+end

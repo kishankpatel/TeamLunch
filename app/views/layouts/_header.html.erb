@@ -1,0 +1,17 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">Team Lunch</a>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <% if logged_in? %>
+        <% if current_user.is_manager? %>
+          <%= link_to "Team Members", users_path, class: "nav-item nav-link" %>
+          <%= link_to "Places", places_path, class: "nav-item nav-link" %>
+        <%end%>
+        <%= link_to "Logged in as: #{current_user.email}", "javascript:void(0)", class: "nav-item nav-link active userinfo" %>
+        <%= link_to "Log out", logout_path, method: :delete, class: "nav-item nav-link" %>
+      <%else%>
+        <%= link_to "Log in", login_path, class: "nav-item nav-link" %>
+      <%end%>
+    </div>
+  </div>
+</nav>

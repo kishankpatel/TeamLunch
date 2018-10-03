@@ -1,0 +1,35 @@
+<%=link_to "Propose Place", new_place_path, class:"btn btn-success create-btn" %>
+<div class="places_list_page">
+	<table id="placesTable" class="table table-hover table-striped">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Address</th>
+				<th>Created On</th>
+				<th>Created By</th>
+				<% if current_user.is_manager? %>
+					<th>Action</th>
+				<%end%>
+			</tr>
+		</thead>
+		<tbody>
+			<% @places.each do |place| %>
+				<tr>
+					<td><%= place.name %></td>
+					<td><%= place.address %></td>
+					<td><%= place.created_at %></td>
+					<td><%= place.creator.name %></td>
+					<% if current_user.is_manager? %>
+						<td><%= link_to "Finalize", finalize_place_path(place.id) %></td>
+					<%end%>
+				</tr>
+			<%end%>
+		</tbody>
+	</table>
+</div>
+
+<script type="text/javascript">
+	$(document).ready( function () {
+	    $('#placesTable').DataTable();
+	} );
+</script>

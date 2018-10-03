@@ -1,0 +1,8 @@
+<p>Hi <%=@user.name%></p><br>
+<p><%=@manager.name%> has invited you to join the team lunch.</p><br>
+<p>Accept information to join the team. </p><br>
+<%= link_to "Accept", accept_invitation_users_url(token: @user.invitation_token) %>
+<br>
+<br>
+<br>
+<br>
