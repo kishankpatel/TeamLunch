@@ -1,6 +1,6 @@
 <div>
   <p>Hi <%=@manager.name%>,</p>
-  <p><%=@user.name%> has proposed a place for team lunch.</p><br>
+  <p><%= @manager == @user ? "You have" : "#{@user.name} has"%> proposed a place for team lunch.</p><br>
   <p>Place information: </p>
   <p>
     <b>Place name: </b> <%=@place.name%>
@@ -8,9 +8,5 @@
   <p>
     <b>Place address: </b> <%=@place.address%>
   </p>
-  <p></p>
-  <p>--</p>
-  <p>Regards,</p>
-  <p><%=@manager.name%></p>
   <br>
 </div>  
