@@ -43,6 +43,22 @@ Now you can login in to the application through above credencial.
 * For Place controller index method:
      `$ exec rspec spec/controllers/place_spec.rb/places_controller_spec.rb`
 
+
+### WorkFlow
+    Manager account to be created using seed
+    Manager can create place for lunch.
+    Manager can create an event for lunch.
+    Manager will choose places for an event.
+    Manager can add team members (name, email, password) from the website
+    Once added, team member should get an email (use letter_opener gem) with a link. Clicking on the link will ask user to reset password.
+    After login, team member can see all the events.
+    Team member should be able to suggest a place in event show page, by selecting a place from selected places for the event by manager.
+    Team member can also add an place but that need to be approve by manager, after approving manager can add the place in an existing event.
+    Only Manager gets an email after addition of the place
+    Manager logs in, see the list, and can finalize a place
+    Only manager should be able to see the finalize button 
+
+
 ---
 
 #### Maintainers

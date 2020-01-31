@@ -70,7 +70,7 @@ class User < ApplicationRecord
     end
   end
 
-  def is_manager?
+  def manager?
     self.manager_id == nil
   end
 

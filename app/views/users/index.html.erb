@@ -1,23 +1,33 @@
-<%=link_to "Add Team Member", new_user_path, class:"btn btn-success create-btn" %>
-<div class="users_list_page">
-	<table id="usersTable" class="table table-hover table-striped">
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Email</th>
-				<th>Created On</th>
-				<th>Accepted On</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% @users.each do |user| %>
-				<tr>
-					<td><%= user.name %></td>
-					<td><%= user.email %></td>
-					<td><%= format_date(user.created_at) %></td>
-					<td><%= user.invitation_accepted_at.present? ? format_date(user.invitation_accepted_at) : "Not Accepted" %></td>
-				</tr>
-			<%end%>
-		</tbody>
-	</table>
+<div class="row">
+  <div class="form-group col-md-12">
+    <div class="places_list_page">
+      <div class="page-header">
+        <h2 class="float-left">Events</h2>
+        <%=link_to "Invite Team Member", new_user_path, class: "btn btn-success create-btn float-right" %>
+        <div class="clearfix"></div>
+      </div>
+      <hr>
+      
+      <table id="placesTable" class="table table-hover" cellspacing="0" width="100%">
+        <thead class="thead-light">
+          <tr>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Created On</th>
+						<th>Accepted On</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @users.each do |user| %>
+						<tr>
+							<td><%= user.name %></td>
+							<td><%= user.email %></td>
+							<td><%= format_date(user.created_at) %></td>
+							<td><%= user.invitation_accepted_at.present? ? format_date(user.invitation_accepted_at) : "Not Accepted" %></td>
+						</tr>
+					<%end%>
+				</tbody>
+      </table>
+    </div>
+  </div>
 </div>

@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     end
   end
   def is_manager
-    unless current_user.is_manager?
+    unless current_user.manager?
       flash[:danger] = "You don't have rights access to view this page."
       redirect_to root_path
     end

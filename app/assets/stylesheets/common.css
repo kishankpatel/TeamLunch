@@ -36,10 +36,6 @@ input {
   }
 }
 
-#session_remember_me {
-  width: auto;
-  margin-left: 0;
-}
 
 ul {
   padding-left: 0px;
@@ -58,7 +54,7 @@ ul {
 }
 
 .form {
-  width: 385px;
+  width: 50%;
   margin: 30px auto;
 }
 
@@ -96,6 +92,7 @@ ul {
   position: fixed;
   top: 60px;
   right: 30px;
+  z-index: 999;
 }
 
 .alert button.close {
@@ -125,4 +122,9 @@ span.close-alert {
 
 .create-btn {
   margin-bottom: 5px;
+}
+
+.create-btn-container {
+  text-align: right;
+  margin: 20px 0;
 }

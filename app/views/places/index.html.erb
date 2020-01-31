@@ -1,29 +1,41 @@
-<%=link_to "Propose Place", new_place_path, class:"btn btn-success create-btn" %>
-<div class="places_list_page">
-	<table id="placesTable" class="table table-hover table-striped">
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Address</th>
-				<th>Created On</th>
-				<th>Proposed By</th>
-				<% if current_user.is_manager? %>
-					<th>Action</th>
-				<%end%>
-			</tr>
-		</thead>
-		<tbody>
-			<% @places.each do |place| %>
-				<tr>
-					<td><%= place.name %></td>
-					<td><%= place.address %></td>
-					<td><%= format_date(place.created_at) %></td>
-					<td><%= place.creator.name %></td>
-					<% if current_user.is_manager? %>
-						<td><%= link_to "Finalize", finalize_place_path(place.id) %></td>
-					<%end%>
-				</tr>
-			<%end%>
-		</tbody>
-	</table>
+<div class="row">
+  <div class="form-group col-md-12">
+    <div class="places_list_page">
+      <div class="page-header">
+        <h2 class="float-left">Places</h2>
+        <%=link_to "Propose Place", new_place_path, class: "btn btn-success create-btn float-right" %>
+        <div class="clearfix"></div>
+      </div>
+      <hr>
+      
+      <table id="placesTable" class="table table-hover" cellspacing="0" width="100%">
+        <thead class="thead-light">
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Created On</th>
+            <th>Proposed By</th>
+            <% if current_user.manager? %>
+              <th>Action</th>
+            <%end%>
+          </tr>
+        </thead>
+        <tbody>
+          <% @places.each do |place| %>
+            <tr>
+              <td><%= place.name %></td>
+              <td><%= place.address %></td>
+              <td><%= format_date(place.created_at) %></td>
+              <td><%= place.creator.name %></td>
+              <% if current_user.manager?%>
+                <td>
+                  <%= link_to "Approve", approve_place_path(place.id) unless place.is_active%>
+                </td>
+              <%end%>
+            </tr>
+          <%end%>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

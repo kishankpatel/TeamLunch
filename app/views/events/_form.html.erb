@@ -1,0 +1,50 @@
+<div class='form'>
+  <%= form_with(model: event, local: true) do |form| %>
+    <% if event.errors.any? %>
+      <div id='error_explanation'>
+        <h2><%= pluralize(event.errors.count, 'error') %> prohibited this event form being saved:</h2>
+
+        <ul>
+          <% event.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class='form-group'>
+      <div class='input-group'>
+        <%= form.text_field :name, class: 'form-control', required: true, placeholder:'Name' %>    
+      </div>
+    </div>
+
+    <div class='form-group'>
+      <div class='input-group'>
+        <%= form.text_area :description, class: 'form-control', required: true, placeholder:'Description' %>    
+      </div>
+    </div>
+
+    <div class='form-group'>
+      <div class='input-group'>
+        <%= form.datetime_select :date, class: 'form-control', required: true, placeholder:'Date' %>    
+      </div>
+    </div>
+
+    Select places for the event:
+
+    <div class='form-group'>
+      <div class='input-group'>
+        <%#form.fields_for :places do |f|%>
+        <%#end%>
+        <% Place.all.each do |place| %>
+          <%= check_box_tag 'event[place_ids][]', place.id %>
+          <%= place.name%>
+        <% end  %>
+      </div>
+    </div>
+
+    <div class='form-group'>
+      <%= form.submit :class => 'btn btn-primary login-btn btn-block' %>
+    </div>
+  <% end %>
+</div>

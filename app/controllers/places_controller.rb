@@ -11,10 +11,10 @@ class PlacesController < ApplicationController
     place = Place.new(place_params)
     respond_to do |format|
       if place.save
+        place.update_attribute :is_active, true if current_user.manager?
         begin
           manager = User.where("manager_id is NULL").first
-          user = place.creator
-          NotificationMailer.new_place_info_to_manager(place, manager, user).deliver
+          NotificationMailer.new_place_info_to_manager(place, manager, current_user).deliver
           flash[:success] = "#{place.name} has been created successfully."
         rescue Exception => e
           flash[:danger] = e.message
@@ -28,10 +28,16 @@ class PlacesController < ApplicationController
     end
   end
 
+  def approve
+    place = Place.find_by_id(params[:id])
+    place.update_attributes(is_active: true)
+    redirect_to places_path
+  end
+
   def finalize
     place = Place.find_by_id(params[:id])
     if place && current_user.is_manager?
-      place.update_attributes(:is_finalize => true, :finalize_by => current_user.id)
+      place.update_attributes(is_finalize: true, finalize_by: current_user.id)
       begin
         users = User.active_users
         NotificationMailer.finalize_place_info_to_users(place, current_user, users).deliver
