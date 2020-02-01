@@ -1,5 +1,5 @@
 module ApplicationHelper
   def format_date(date)
-    date.strftime("%d/%m/%Y %H:%M %p")
+    date.strftime("%a, #{date.to_date.day.ordinalize} %b %Y")
   end
 end

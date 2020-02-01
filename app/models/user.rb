@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }
   
+  has_many :votes, :foreign_key => "voter_id", :class_name => "Vote"
   
   scope :active_users, -> { where("manager_id is NOT NULL AND invitation_token IS NULL AND invitation_accepted_at IS NOT NULL") }
 

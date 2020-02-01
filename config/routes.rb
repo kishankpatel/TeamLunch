@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :events
   get 'home/index'
   get 'sessions/new'
-  root to: 'places#index'
+  root to: 'events#index'
   get    '/login',   to: 'sessions#new'
   get    '/signup',   to: 'users#new'
   post   '/login',   to: 'sessions#create'
@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   	member do
       get :finalize
       get :approve
+      get :vote
     end
   end
 end

@@ -49,6 +49,11 @@ class PlacesController < ApplicationController
     redirect_to places_path
   end
 
+  def vote
+    Vote.create(place_id: params[:id], event_id: params[:event_id], voter_id: current_user.id)
+    redirect_to request.referrer
+  end
+
   private
   def place_params
     params.require(:place).permit(:name, :address, :created_by)

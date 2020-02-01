@@ -54,7 +54,7 @@ ul {
 }
 
 .form {
-  width: 50%;
+  width: 70%;
   margin: 30px auto;
 }
 
@@ -127,4 +127,26 @@ span.close-alert {
 .create-btn-container {
   text-align: right;
   margin: 20px 0;
+}
+
+.navbar {
+  display: none;
+}
+
+@media only screen and (max-width: 1200px) {
+  .form {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .form {
+    width: 80%;
+  }
+  #sidebar {
+    display: none;
+  }
+  .navbar {
+    display: block;
+  }
 }
