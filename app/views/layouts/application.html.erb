@@ -15,7 +15,7 @@
       <% flash.each do |message_type, message| %>
         <div class="alert alert-<%= message_type %>"><%= message %><span class="close-alert">x</span></div>
       <% end %>
-      <%if current_user%>
+      <%if current_user.present?%>
         <div class="page-wrapper chiller-theme toggled">
           <%= render partial: "layouts/header" %>
           <!-- sidebar-wrapper  -->
