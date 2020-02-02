@@ -42,7 +42,9 @@
             <%=place.event_voters(@event.id).presence || '-'%>
           </td>
           <td>
-            <%= link_to "Vote", vote_place_path(place, event_id: @event.id) unless voted_event?(@event.id)%>
+            <%= link_to "Vote", vote_place_path(place, event_id: @event.id), data: { confirm: "Are you sure? Once you vote for a place you can't edit" } unless voted_event?(@event.id)%>
+
+            <%= link_to "Finalise", finalize_place_path(place, event_id: @event.id) unless current_user.manager?%>
           </td>
         </tr>
       <%end%>

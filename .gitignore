@@ -33,3 +33,5 @@
 yarn-debug.log*
 .yarn-integrity
 .browserslistrc
+public/.DS_Store
+.DS_Store
