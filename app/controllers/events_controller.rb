@@ -29,7 +29,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.save
         @event.update_attribute :created_by, current_user.id
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
+        format.html { redirect_to @event, success: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new }
@@ -43,7 +43,7 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
-        format.html { redirect_to @event, notice: 'Event was successfully updated.' }
+        format.html { redirect_to @event, success: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit }
@@ -57,7 +57,7 @@ class EventsController < ApplicationController
   def destroy
     @event.destroy
     respond_to do |format|
-      format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
+      format.html { redirect_to events_url, success: 'Event was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -65,7 +65,6 @@ class EventsController < ApplicationController
   def finalize_place
     event = Event.find_by_id(params[:id])
     response = event.finalize_place(params[:place_id], current_user)
-    byebug
     flash[response[:type]] = response[:message]
     redirect_to event_path(event)
   end

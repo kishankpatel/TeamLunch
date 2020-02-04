@@ -15,7 +15,7 @@ class Event < ApplicationRecord
       begin
         users = User.active_users
         NotificationMailer.finalize_place_info_to_users(place, current_user, users).deliver
-        return { message: "#{place.name} has been finalised for team lunch.", type: 'notice'}
+        return { message: "#{place.name} has been finalised for team lunch.", type: 'success'}
       rescue Exception => e
         return { message: e.message, type: 'danger' }
       end

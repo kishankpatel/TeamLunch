@@ -75,4 +75,45 @@ class User < ApplicationRecord
     self.manager_id == nil
   end
 
+  def send_invitation(manager)
+    token = Base64.strict_encode64(id.to_s + "-" + created_at.to_s)
+    update_attributes(manager_id: manager.id,invitation_token: token) 
+    NotificationMailer.send_invitation(self, manager).deliver
+  end
+
+  def self.validate_invitation(token)
+    begin
+      id = Base64.strict_decode64(token).split("-")[0]
+      user = User.find_by_id(id)
+      response = { user: user }
+      if user.present?
+        if user.invitation_token.blank? && user.invitation_accepted_at.present?
+          response = { error_message: "Invitation already accepted, please try signing in."}
+        end
+      else
+        response = { error_message: "User not found!!"}
+      end
+    rescue Exception => e
+      response = { error_message: e.message}
+    end
+    return response
+  end
+
+  def self.reset_password(params, request)
+    user = User.find_by_id(params[:id])
+    
+    if user.present? 
+      if params[:user][:password] == params[:user][:password_confirmation]
+        user.update_attributes(invitation_token: nil, invitation_accepted_at: DateTime.now, password: params[:user][:password], password_confirmation: params[:user][:password_confirmation])
+        response = { type: 'notice', message: 'Invitation accepted, please try signing in.', path: 'login' }
+      else
+        response = { type: 'danger', message: 'Password and confirm password does not matched.', path: 'referrer' }
+      end
+    else
+      response = { type: 'danger', message: 'User not found!', path: 'login' }
+    end
+
+    return response
+  end
+
 end
