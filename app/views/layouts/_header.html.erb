@@ -23,7 +23,7 @@
     </div>
     <div class="sidebar-menu">
       <ul>
-        <% if can? :read, User %>
+        <% if current_user.manager? %>
           <li>
             <%= link_to "Team Members", users_path, class: "nav-item nav-link" %>
           </li>
