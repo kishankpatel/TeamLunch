@@ -1,5 +1,10 @@
 <div class="table-responsive panel">
-  <h3>Event Details</h3>
+  <h3>
+    Event Details
+    <small class="float-right">
+      <%= link_to "Edit" , edit_event_path(@event), class: "btn btn-light btn-sm" %>
+    </small>
+  </h3>
   <table class="table">
     <tbody>
       <tr>
@@ -17,6 +22,10 @@
       <tr>
         <td class="text-grey">Created by: </td>
         <td><%= "#{@event.creator.name} (#{@event.creator.email})"%></td>
+      </tr>
+      <tr>
+        <td class="text-grey">Created On: </td>
+        <td><%= format_date(@event.created_at) %></td>
       </tr>
     </tbody>
   </table>
@@ -42,9 +51,14 @@
             <%=place.event_voters(@event.id).presence || '-'%>
           </td>
           <td>
-            <%= link_to "Vote", vote_place_path(place, event_id: @event.id), data: { confirm: "Are you sure? Once you vote for a place you can't edit" } unless voted_event?(@event.id)%>
-
-            <%= link_to "Finalise", finalize_place_path(place, event_id: @event.id) unless current_user.manager?%>
+            <%if EventPlace.finalized_any?(@event.id)%>
+              <%if place.finalized?(@event.id)%>
+                <span>Finalized</span>
+              <%end%>
+            <%else%>
+              <%= link_to "Vote", vote_place_path(place, event_id: @event.id), data: { confirm: "Are you sure? Once you vote for a place you can't edit." }, class: "btn btn-outline-secondary btn-sm" unless voted_event?(@event.id)%>
+              <%= link_to "Finalize", finalize_place_event_path(@event, place_id: place.id), class: "btn btn-outline-info btn-sm", data: { confirm: "Are you sure wnt to finalize #{place.name} for team lunch?" } if current_user.manager?%>
+            <%end%>
           </td>
         </tr>
       <%end%>

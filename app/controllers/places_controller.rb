@@ -34,21 +34,6 @@ class PlacesController < ApplicationController
     redirect_to places_path
   end
 
-  def finalize
-    place = Place.find_by_id(params[:id])
-    if place && current_user.is_manager?
-      place.update_attributes(is_finalize: true, finalize_by: current_user.id)
-      begin
-        users = User.active_users
-        NotificationMailer.finalize_place_info_to_users(place, current_user, users).deliver
-        flash[:success] = "#{place.name} has been finalised for team lunch."
-      rescue Exception => e
-        flash[:danger] = e.message
-      end
-    end
-    redirect_to places_path
-  end
-
   def vote
     Vote.create(place_id: params[:id], event_id: params[:event_id], voter_id: current_user.id)
     redirect_to request.referrer

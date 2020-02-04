@@ -11,4 +11,8 @@ class Place < ApplicationRecord
     User.where("id IN (?)", user_ids).pluck(:name).join(", ")
   end
 
+  def finalized?(event_id)
+    event_places.where(event_id: event_id).first.try(:is_finalize)
+  end
+
 end

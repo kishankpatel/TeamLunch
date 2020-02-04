@@ -5,7 +5,7 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+    @events = Event.order('created_at DESC')
   end
 
   # GET /events/1
@@ -60,6 +60,14 @@ class EventsController < ApplicationController
       format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def finalize_place
+    event = Event.find_by_id(params[:id])
+    response = event.finalize_place(params[:place_id], current_user)
+    byebug
+    flash[response[:type]] = response[:message]
+    redirect_to event_path(event)
   end
 
   private

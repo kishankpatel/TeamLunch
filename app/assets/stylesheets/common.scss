@@ -1,3 +1,9 @@
+a {
+  color: #818896;
+}
+a:hover {
+  color: #222;
+}
 .main_container {
   padding: 15px;
 }
@@ -38,8 +44,9 @@ ul {
 }
 
 .form {
-  width: 70%;
+  width: 80%;
   margin: 30px auto;
+  max-width: 500px;
 }
 
 .form form {        
@@ -74,9 +81,18 @@ ul {
 
 .alert {
   position: fixed;
-  top: 60px;
-  right: 30px;
-  z-index: 999;
+  right: 10px;
+  z-index: 1000;
+  box-shadow: 0 0 20px #999;
+  left: 0;
+  margin: 0 auto;
+  max-width: 300px;
+  top: 20px;
+}
+
+.alert.alert-notice {
+  background: #3a3f46a8;
+  color: #fff;
 }
 
 .alert button.close {

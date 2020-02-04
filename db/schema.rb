@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 2020_01_31_184043) do
     t.integer "event_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["voter_id", "event_id"], name: "index_votes_on_voter_id_and_event_id", unique: true
   end
 
 end
