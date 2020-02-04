@@ -8,7 +8,7 @@
       </div>
       <hr>
       
-      <table id="placesTable" class="table table-hover" cellspacing="0" width="100%">
+      <table id="eventsTable" class="table table-hover" cellspacing="0" width="100%">
         <thead class="thead-light">
           <tr>
             <th>Name</th>
@@ -16,7 +16,7 @@
             <th>Date</th>
             <th class="text-center">Finalized Place</th>
             <th class="text-center">Created by</th>
-            <th colspan="3"></th>
+            <th></th>
           </tr>
         </thead>
 
@@ -28,13 +28,13 @@
               <td><%= format_date(event.date) %></td>
               <td class="text-center"><%= event.finalized_place.presence || '-' %></td>
               <td class="text-center"><%= event.creator.email %></td>
-              <td><%= link_to 'Show', event %></td>
-              <%if current_user.manager?%>
-                <td><%= link_to 'Edit', edit_event_path(event) %></td>
-                <td>
-                  <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }%>
-                </td>
-              <%end%>
+              <td>
+                <%= link_to 'Show', event, class: "btn btn-link btn-sm text-muted" %>
+                <%if current_user.manager?%>
+                  <%= link_to 'Edit', edit_event_path(event), class: "btn btn-link btn-sm text-muted" %>
+                  <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-link btn-sm text-muted"%>
+                <%end%>
+              </td>
             </tr>
           <% end %>
         </tbody>
@@ -42,3 +42,9 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready( function () {
+    $('#eventsTable').DataTable();
+  });
+</script>
