@@ -12,6 +12,11 @@ class User < ApplicationRecord
   has_many :votes, :foreign_key => "voter_id", :class_name => "Vote"
   
   scope :active_users, -> { where("manager_id is NOT NULL AND invitation_token IS NULL AND invitation_accepted_at IS NOT NULL") }
+  before_validation :set_password, on: :create
+
+  def set_password
+    self.password = SecureRandom.hex if self.password.blank?
+  end
 
   def manager
     User.find(manager_id)

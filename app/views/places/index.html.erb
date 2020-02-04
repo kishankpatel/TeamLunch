@@ -29,7 +29,7 @@
               <td><%= place.creator.name %></td>
               <% if current_user.manager?%>
                 <td>
-                  <%= link_to "Approve", approve_place_path(place.id) unless place.is_active%>
+                  <%= link_to "Approve", approve_place_path(place.id) unless place.is_approved%>
                 </td>
               <%end%>
             </tr>

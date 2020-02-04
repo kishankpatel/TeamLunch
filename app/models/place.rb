@@ -6,6 +6,8 @@ class Place < ApplicationRecord
   has_many :events, through: :event_places
   has_many :votes
 
+  scope :approved_places, -> { where(is_approved: true) }
+
   def event_voters(event_id)
     user_ids = votes.where(event_id: event_id).pluck(:voter_id)
     User.where("id IN (?)", user_ids).pluck(:name).join(", ")

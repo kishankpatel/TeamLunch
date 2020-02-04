@@ -1,26 +1,26 @@
 class PlacesController < ApplicationController
   before_action :authenticate_user
   def index
-    @places = Place.all.order("created_at DESC")  
+    @places = Place.all.order("created_at DESC")
   end
-  def new
-    
-  end
+
+  def new;end
+
   def create
     params[:place][:created_by] = current_user.id
     place = Place.new(place_params)
     respond_to do |format|
       if place.save
-        place.update_attribute :is_active, true if current_user.manager?
+        place.update_attribute :is_approved, true if current_user.manager?
         begin
           manager = User.where("manager_id is NULL").first
           NotificationMailer.new_place_info_to_manager(place, manager, current_user).deliver
-          flash[:success] = "#{place.name} has been created successfully."
+          flash[:success] = "Place #{place.name} has been created successfully."
         rescue Exception => e
           flash[:danger] = e.message
         end
-          format.html { redirect_to places_path }
-          format.json { render text: "success", status: :created }
+        format.html { redirect_to places_path }
+        format.json { render json: place, status: :created }
       else
         format.html { render :new }
         format.json { render json: place.errors, status: :unprocessable_entity}
@@ -30,7 +30,7 @@ class PlacesController < ApplicationController
 
   def approve
     place = Place.find_by_id(params[:id])
-    place.update_attributes(is_active: true)
+    place.update_attributes(is_approved: true)
     redirect_to places_path
   end
 

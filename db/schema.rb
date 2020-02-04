@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2020_01_31_184043) do
     t.string "name", null: false
     t.text "address", null: false
     t.integer "created_by", null: false
-    t.boolean "is_active", default: false
+    t.boolean "is_approved", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

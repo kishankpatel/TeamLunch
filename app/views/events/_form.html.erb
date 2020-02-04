@@ -33,7 +33,7 @@
 
     
     <b>Select places for the event:</b>
-    <%= form.collection_check_boxes :place_ids, Place.all, :id, :name do |b| %>
+    <%= form.collection_check_boxes :place_ids, Place.approved_places.all, :id, :name do |b| %>
       <div class='form-check'>
         <%= b.check_box(class: "form-check-input") %>
         <%= b.label(class: "form-check-label") %>
