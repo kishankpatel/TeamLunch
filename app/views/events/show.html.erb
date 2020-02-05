@@ -2,7 +2,7 @@
   <h3>
     Event Details
     <small class="float-right">
-      <%= link_to "Edit" , edit_event_path(@event), class: "btn btn-light btn-sm" %>
+      <%= link_to "Edit" , edit_event_path(@event), class: "btn btn-light btn-sm" if can? :manage, Event%>
     </small>
   </h3>
   <table class="table">
@@ -43,7 +43,7 @@
     </thead>
     <tbody>
       <%@event.places.each do |place|%>
-        <tr>
+        <tr class="<%= @event.finalized?(place.id) ? 'finalized' : ''%>">
           <td>
             <%= place.name%>
           </td>
@@ -51,13 +51,13 @@
             <%=place.event_voters(@event.id).presence || '-'%>
           </td>
           <td>
-            <%if EventPlace.finalized_any?(@event.id)%>
-              <%if place.finalized?(@event.id)%>
+            <%if @event.any_finalized_place?%>
+              <%if @event.finalized?(place.id)%>
                 <span>Finalized</span>
               <%end%>
             <%else%>
               <%= link_to "Vote", vote_place_path(place, event_id: @event.id), data: { confirm: "Are you sure? Once you vote for a place you can't edit." }, class: "btn btn-outline-secondary btn-sm" unless voted_event?(@event.id)%>
-              <%= link_to "Finalize", finalize_place_event_path(@event, place_id: place.id), class: "btn btn-outline-info btn-sm", data: { confirm: "Are you sure wnt to finalize #{place.name} for team lunch?" } if current_user.manager?%>
+              <%= link_to "Finalize", finalize_place_event_path(@event, place_id: place.id), class: "btn btn-outline-info btn-sm", data: { confirm: "Are you sure want to finalize #{place.name} for team lunch?" } if can? :finalize, Event%>
             <%end%>
           </td>
         </tr>

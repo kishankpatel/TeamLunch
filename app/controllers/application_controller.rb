@@ -16,13 +16,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def is_manager
-    unless current_user.manager?
-      flash[:danger] = "You don't have rights access to view this page."
-      redirect_to root_path
-    end
-  end
-
   rescue_from CanCan::AccessDenied do |exception| 
     redirect_to root_path, :notice => "You don't have rights access to view this page."
   end

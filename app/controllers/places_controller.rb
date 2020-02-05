@@ -1,5 +1,7 @@
 class PlacesController < ApplicationController
   before_action :authenticate_user
+  authorize_resource
+  
   def index
     @places = Place.includes([:creator]).order("created_at DESC")
   end

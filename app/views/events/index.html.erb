@@ -3,7 +3,7 @@
     <div class="places_list_page">
       <div class="page-header">
         <h2 class="float-left">Events</h2>
-        <%=link_to "New Event", new_event_path, class: "btn btn-outline-secondary create-btn float-right" if current_user.manager? %>
+        <%=link_to "New Event", new_event_path, class: "btn btn-outline-secondary create-btn float-right" if can? :create, Event %>
         <div class="clearfix"></div>
       </div>
       <hr>
@@ -26,11 +26,11 @@
               <td><%= event.name %></td>
               <td><%= event.description %></td>
               <td><%= format_date(event.date) %></td>
-              <td class="text-center"><%= event.finalized_place.presence || '-' %></td>
+              <td class="text-center"><%= event.finalized_place_name.presence || '-' %></td>
               <td class="text-center"><%= event.creator.email %></td>
               <td>
                 <%= link_to 'Show', event, class: "btn btn-link btn-sm text-muted" %>
-                <%if current_user.manager?%>
+                <%if can? :manage, Event%>
                   <%= link_to 'Edit', edit_event_path(event), class: "btn btn-link btn-sm text-muted" %>
                   <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-link btn-sm text-muted"%>
                 <%end%>

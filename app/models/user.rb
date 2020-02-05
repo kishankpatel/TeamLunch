@@ -80,6 +80,14 @@ class User < ApplicationRecord
     self.manager_id == nil
   end
 
+  def role
+    if manager?
+      'Manager'
+    else
+      'Employee'
+    end
+  end
+
   def send_invitation(manager)
     token = Base64.strict_encode64(id.to_s + "-" + created_at.to_s)
     update_attributes(manager_id: manager.id,invitation_token: token) 

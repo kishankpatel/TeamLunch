@@ -17,7 +17,7 @@
           <%= current_user.email%>
         </span>
         <span class="user-status">
-          <%= current_user.manager? ? "Manager" : "Developer"%>
+          <%= current_user.role%>
         </span>
       </div>
     </div>
@@ -69,7 +69,7 @@
       <li>
         <div class="header-divider"></div>
       </li>
-      <% if current_user.manager? %>
+      <% if can? :read, User %>
         <li>
           <%= link_to "Team Members", users_path, class: "nav-item nav-link" %>
         </li>

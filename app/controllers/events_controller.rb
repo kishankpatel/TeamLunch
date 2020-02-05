@@ -1,9 +1,10 @@
 class EventsController < ApplicationController
   before_action :authenticate_user
   before_action :set_event, only: [:show, :edit, :update, :destroy]
+  authorize_resource
 
   def index
-    @events = Event.includes([:creator]).order('created_at DESC')
+    @events = Event.includes([:creator, finalized_place: :place]).order('created_at DESC')
   end
 
   def show

@@ -5,9 +5,9 @@ class Ability
     if user.manager?
       can :manage, :all
     else
-      can :manage, Place
+      can :read, Event
+      can [:index, :new, :create, :vote], Place
       can :manage, Vote
-      can :manage, EventPlace
     end
   end
 end

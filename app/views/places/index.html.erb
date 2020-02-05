@@ -15,7 +15,7 @@
             <th>Address</th>
             <th>Created On</th>
             <th>Proposed By</th>
-            <% if current_user.manager? %>
+            <% if can? :approve, Place %>
               <th>Action</th>
             <%end%>
           </tr>
@@ -27,7 +27,7 @@
               <td><%= place.address %></td>
               <td><%= format_date(place.created_at) %></td>
               <td><%= place.creator.name %></td>
-              <% if current_user.manager?%>
+              <% if can? :approve, Place%>
                 <td>
                   <%= link_to "Approve", approve_place_path(place.id) unless place.is_approved%>
                 </td>

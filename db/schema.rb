@@ -10,25 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_31_184043) do
+ActiveRecord::Schema.define(version: 2020_02_05_140337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "event_places", force: :cascade do |t|
-    t.integer "event_id"
-    t.integer "place_id"
-    t.boolean "is_finalize", default: false
-    t.integer "finalized_by"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
 
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.datetime "date"
     t.integer "created_by"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "events_places", force: :cascade do |t|
+    t.integer "event_id"
+    t.integer "place_id"
+  end
+
+  create_table "finalized_places", force: :cascade do |t|
+    t.integer "event_id"
+    t.integer "place_id"
+    t.integer "finalized_by"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

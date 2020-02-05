@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user, except: [:accept_invitation, :reset_password]
   before_action :check_login, only: [:accept_invitation, :reset_password]
-  load_and_authorize_resource except: [:accept_invitation, :reset_password]
+  authorize_resource except: [:accept_invitation, :reset_password]
   
   def index
     @users = User.all.where("id != ?", current_user.id)

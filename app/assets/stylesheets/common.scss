@@ -136,6 +136,12 @@ span.close-alert {
 .navbar {
   display: none;
 }
+tr.finalized td:first-child {
+    border-left: 3px solid #17a2b8;
+}
+tr.finalized td {
+    background: #17a2b878;
+}
 
 @media only screen and (max-width: 1200px) {
   .form {
